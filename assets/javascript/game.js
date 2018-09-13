@@ -5,114 +5,72 @@
 
 /////variables for game
 var game = {
-    "scoreWin": 0, //wins for game
-    "scoreLose": 0, //loss for game
-    "countDown": 10, //countdown of guesses
-    //"answerSpace": "_",
-    "wordArray": ["usher", "aaliyah", "brandy", "lauren hill"],
-    "wordSelected" : ' ',
-    "wordSelectedArray" : [],
-    "answerArray" : [],
-    "incorrectArray" : [],
-    "win": 'You win!',
-    "lose": 'Game over!',
+    scoreWin: 0, //wins for game
+    scoreLose: 0, //loss for game
+    guessesLeft: 10, //countdown of guesses doc count
+    wordArray: ["usher", "aaliyah", "brandy", "monica"],
+    wordSelected : ' ',
+    wordSelectedArray : [],
+    correctArray: [],
+    incorrectArray: [],
+
 }
+ 
 
 var gameRunning = false;
 
-// connection to html
-output = document.getElementById("output");
-lives = document.getElementById("count-down");
-guessInput = document.getElementById("guesses-made");
-scoreDisplay = document.getElementById("score-display");
-
-// messages on html
-scoreDisplay.textContent = "You've won " + game.score + " many times"; 
-lives.innerHTML = 'You have ' + game.countDown + ' lives remaining';
-guessInput.innerHTML = "You've guessed " + game.answerArray + "already"
 
 
-
-
-// game start
-
-document.onkeyup = function(){
-
-    // methods of the game
-  
-// objective of game
-function gamePlay( ) {
-    // if keyPressed not in the wordToGuess and not in the lettersGuessed the decrease number of guesses remaining
-    if (this.wordArray.indexOf(game.userInput) < 0 && this.alphabet.indexOf(this.userInput) < 0) {
-        this.countDown--;
-        console.log(this.countDown)
-    }
-    // check to see if the letter was already guessed 
-    if (this.alphabet.indexOf(this.userInput) == -1) {
-        // not guessed yet so add to array
-    this.alphabet.push(this.userInput);
-    }
-}
-
-//word display 
-function showWord(){
-    // the words selected should display (answer"_" for each letter
-    //once correct letter is guessed, reveal correct letter
-    //if wrong letter is guessed, continue "_"
+function startGame (){ //if game refershes, it should be a clean slate
+   // tell game to reset
+   gameRunning = false;
+   
+    // reset functions to zero 
+    game.correctArray = [];
+    game.incorrectArray = [];
     
-    var tempString = "<p>"; // display the paragraph from HTML
-  for (var i = 0; i < this.word.length; i++) { // a for loop to show the vowels in the random word
-      if (game.alphabet.includes(word[i].toLowerCase())) {
-          tempString += word[i] + " "; //add randomWord to the temp string -- += means add to the string
-      } else {
-          tempString += "_ ";
- 
-       }
-       
-tempString += "</p>"; // end the paragraph
-word.textContent = tempString; // change the content displayed on HTML
-word.innerHTML = tempString // don't show the <p> or </p> around the word     
-console.log (tempString)
+    //guesses back at 10
+    guessesLeft = 10;
+    
+    // random word is selected 
+    wordSelected = game.wordArray[Math.floor(Math.random() * (game.wordArray.length))];
+    console.log(wordSelected)
 
-output.innerHTML = word;
+    // the word being guessed should show "_"
+    for (var i = 0; i < game.wordArray[i].length; i++){
+        wordSelected.push("_")
     }
+    displayGame()
+};
+
+function displayGame(){
+    document.getElementById("win-display").innerText = game.scoreWin;
+    document.getElementById("display-word").innerText = ""; //displays current word and ("_")
+    for (var i = 0; i < wordSelectedArray.length; i++)
+
+};
+
+
+
+
+function guessLetter (){
+    // word needs to diplay to the html  
+    // display the length of the word to the user using "_"
+    // once letter is selected
+        // the right letter will appear
+        // the incorrect letter will appear in incorrectArray
+    // number of guesses left should decrease by -1
+    //if anserArray is equal to the length of the word, tell the user they won
+    
+};
+
+function endGame (){
+    //if guesses left <=0 
+        // if word has not been solved
+        //score lose will be +1
+        // alert("YOU LOSE!!")
+    //if word is solve
+        // score win will be +1
+        // game will restart
 }
-
-function lettersGuessed(letter){
-    // if the letter has been guessed
-    //and it is not in the "word" 
-    //reveal letter in the "answerArray"
-    // after letter is revealed -1 from 
-    var remainingLetters = word.length;
-console.log(remainingLetters)
-}
-
-function gameOver(){
-    //if guesses word is guessed before countDown is 0
-    //alert(this.win)
-    // add +1 to score
-    // else word is not guessed and countdown reaches 0
-    //alert (this.lose)
-}
-
-function newWord(){
-    //if word has been guessed
-    //restart game with new "word" from "wordArray"
-
-}
-
-
-// random word selection
-var word = game.wordArray[Math.floor(Math.random() * game.wordArray.length)];
-
-
-
-
-
-}
-
-
-
-
-
 
