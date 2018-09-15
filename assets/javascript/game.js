@@ -15,8 +15,9 @@ var game = {
     incorrectArray: [],
 
 }
- 
 
+document.getElementById("score-lose").innerText = game.scoreLose; //diplays losses
+document.getElementById("guesses-left").innerText = game.guessesLeft; //diplays guess left in game
 var gameRunning = false;
 
 
@@ -36,17 +37,15 @@ function startGame (){ //if game refershes, it should be a clean slate
     wordSelected = game.wordArray[Math.floor(Math.random() * (game.wordArray.length))];
     console.log(wordSelected)
 
-    // the word being guessed should show "_"
-    for (var i = 0; i < game.wordArray[i].length; i++){
-        wordSelected.push("_")
-    }
+
     displayGame()
 };
+
+startGame()
 
 function displayGame(){
     document.getElementById("win-display").innerText = game.scoreWin;
     document.getElementById("display-word").innerText = ""; //displays current word and ("_")
-    for (var i = 0; i < wordSelectedArray.length; i++)
 
 };
 
@@ -74,3 +73,22 @@ function endGame (){
         // game will restart
 }
 
+
+document.onkeyup = function (event) {
+
+
+    var guess = event.key.toLowerCase();
+    console.log(guess)
+
+    if (guess === "h") {
+      (game.guessesLeft--);
+    } 
+    
+    if(game.guessesLeft === 0){
+        alert ("GAME OVER!");
+        game.scoreLose++;
+       return game.scoreLose
+    }
+    console.log(game.guessesLeft)
+    console.log(game.scoreLose)
+  }
