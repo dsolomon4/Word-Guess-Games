@@ -4,20 +4,21 @@
 
 
 /////variables for game
-var game = {
-    scoreWin: 0, //wins for game
-    scoreLose: 0, //loss for game
-    guessesLeft: 10, //countdown of guesses doc count
-    wordArray: ["usher", "aaliyah", "brandy", "monica"],
-    wordSelected : ' ',
-    wordSelectedArray : [],
-    correctArray: [],
-    incorrectArray: [],
+var    scoreWin = 0; //wins for game
+var    scoreLose= 0;//loss for game
+var    guessesLeft= 10; //countdown of guesses doc count
+var    wordArray =["usher", "aaliyah", "brandy", "monica"];
+var    wordSelected = ' ';
+var    wordSelectedArray = [];
+var    correctArray= [];
+var    incorrectArray= [];
 
-}
 
-document.getElementById("score-lose").innerText = game.scoreLose; //diplays losses
-document.getElementById("guesses-left").innerText = game.guessesLeft; //diplays guess left in game
+document.getElementById("answer-array").innerText = "Here are the letters you have guessed: " + incorrectArray.join(' ');
+document.getElementById("win-display").innerText =  "You have " + scoreWin + " wins!";
+document.getElementById("score-lose").innerText = "You have " + scoreLose + " loses!"; //diplays losses
+document.getElementById("guesses-left").innerText = "You have " + guessesLeft + " guesses remaining!"; //diplays guess left in game
+
 var gameRunning = false;
 
 
@@ -26,53 +27,58 @@ function startGame (){ //if game refershes, it should be a clean slate
    // tell game to reset
    gameRunning = false;
    
+   
     // reset functions to zero 
-    game.correctArray = [];
-    game.incorrectArray = [];
+    correctArray = [];
+    incorrectArray = [];
     
     //guesses back at 10
     guessesLeft = 10;
     
     // random word is selected 
-    wordSelected = game.wordArray[Math.floor(Math.random() * (game.wordArray.length))];
-    console.log(wordSelected)
+    wordSelected = wordArray[Math.floor(Math.random() * (wordArray.length))];
+   
 
+    for (var i=0; i < wordSelected.length; i++){
+        wordSelectedArray.push("_")
+    };
 
-    displayGame()
+    console.log(wordSelectedArray)
+
+  document.getElementById("display-word").innerText = wordSelectedArray.join(' ');
+    console.log(wordSelected);
+    
 };
 
 startGame()
 
-function displayGame(){
-    document.getElementById("win-display").innerText = game.scoreWin;
-    document.getElementById("display-word").innerText = ""; //displays current word and ("_")
-
-};
-
-
-
-
-function guessLetter (){
-    // word needs to diplay to the html  
-    // display the length of the word to the user using "_"
-    // once letter is selected
-        // the right letter will appear
-        // the incorrect letter will appear in incorrectArray
-    // number of guesses left should decrease by -1
-    //if anserArray is equal to the length of the word, tell the user they won
-    
-};
-
 function endGame (){
-    //if guesses left <=0 
+
+    
+
+    // var wordSelectedArray = [];
+    // wordSelectedArray =  wordSelectedArray.split();
+    console.log(wordSelectedArray);
+
+    if (guessesLeft === 0){
+       
         // if word has not been solved
-        //score lose will be +1
-        // alert("YOU LOSE!!")
+        // score lose will be +1
+        scoreLose ++
+     alert("Game Over!")
+
+
+    }else if (wordSelected === wordSelectedArray){
+        scoreWin ++
+        alert("hello")
     //if word is solve
         // score win will be +1
         // game will restart
-}
+        // startGame();
+    }
+    document.getElementById("score-lose").innerText = "You have " + scoreLose + " loses"; //diplays losses
 
+}
 
 document.onkeyup = function (event) {
 
@@ -80,15 +86,25 @@ document.onkeyup = function (event) {
     var guess = event.key.toLowerCase();
     console.log(guess)
 
-    if (guess === "h") {
-      (game.guessesLeft--);
-    } 
     
-    if(game.guessesLeft === 0){
-        alert ("GAME OVER!");
-        game.scoreLose++;
-       return game.scoreLose
+
+    if(wordSelected.includes(guess)){
+        wordSelectedArray.forEach((letter, index )=> {
+            if(wordSelected[index] === guess) {
+                wordSelectedArray[index] = guess
+                guessesLeft --
+            }
+        })
+
+        document.getElementById("display-word").innerText = wordSelectedArray.join(' ');
+    }else {
+        incorrectArray.push(guess)
+        document.getElementById("answer-array").innerText = "Here are the letters you have guessed: " + incorrectArray.join(' ');
+
+        guessesLeft--
+        
     }
-    console.log(game.guessesLeft)
-    console.log(game.scoreLose)
+    document.getElementById("guesses-left").innerText = "You have " + guessesLeft + " guesses remaining!"; //diplays guess left in game
+    console.log(guessesLeft)
+    endGame();
   }
